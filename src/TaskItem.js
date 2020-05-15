@@ -1,10 +1,6 @@
 import React from 'react';
 
 class TaskItem extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     handleChangeCheckbox = (event) => {
         const task = this.props.task;
         task.isDone = event.target.checked;
@@ -13,7 +9,7 @@ class TaskItem extends React.Component {
 
     render() { 
         const task = this.props.task;
-        const dueDate = task.dueDate.toString();
+        const dueDate = task.dueDate;
         let textStyle = "taskName";
         let dateStyle = "date";
         const today = new Date();
