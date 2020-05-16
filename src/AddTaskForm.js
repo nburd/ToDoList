@@ -1,63 +1,58 @@
 import React from "react";
+import TasksContext from "./TasksContext";
 
 class AddTaskForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      taskName: '',
-      dueDate: ''
+      name: "",
+      date: "",
     };
   }
 
-  handleChangeText = (event) => {
-    this.setState({ taskName: event.target.value });
+  handleChangeText = ({ target }) => {
+    this.setState({ name: target.value });
   };
 
-  handleChangeDate = (event) => {
-    this.setState({ dueDate: event.target.value });
-  };
-
-  handleAddNewTask = (event) => {
-    const taskName = this.state.taskName;
-    const dueDate = this.state.dueDate;
-    if (taskName.length === 0) {
-      alert("Task name cannot be empty.");
-      return;
-    }
-
-    if (dueDate=== "") {
-      alert("Due date cannot be null.");
-      return;
-    }
-
-    this.setState({ taskName: '' });
-    this.props.onTaskAdded(taskName, dueDate);
+  handleChangeDate = ({ target }) => {
+    this.setState({ date: target.value });
   };
 
   render() {
     return (
-      <div className="form">
-        <div>
-          <label className="formLabel">Task name: </label>
-          <input 
-            type="text" 
-            onChange={this.handleChangeText} 
-            value={this.state.taskName} />
-        </div>
-        <div>
-          <label className="formLabel">Due date: </label>
-          <input 
-            type="date" 
-            onChange={this.handleChangeDate} />
-        </div>
-        <div>
-          <button 
-            className="addTaskButton" 
-            onClick={this.handleAddNewTask}>
-            Add task
-          </button>
-        </div>
-      </div>
+      <TasksContext.Consumer>
+        {({ handleAdd, validation }) => {
+          return (
+            <div className="form">
+              <div>
+                <label className="formLabel">Task name: </label>
+                <input
+                  type="text"
+                  onChange={this.handleChangeText}
+                  value={this.state.name}
+                />
+              </div>
+              <div>
+                <label className="formLabel">Due date: </label>
+                <input type="date" onChange={this.handleChangeDate} />
+              </div>
+              <div>
+                <button
+                  className="addTaskButton"
+                  onClick={
+                    () => handleAdd({ ...this.state, done: false }) //Придётся немного потерпеть, чтоб сразу всё радикально не менять
+                  }
+                >
+                  Add task
+                </button>
+                {validation && (
+                  <span className="validation-error">{validation}</span>
+                )}
+              </div>
+            </div>
+          );
+        }}
+      </TasksContext.Consumer>
     );
   }
 }
