@@ -1,9 +1,9 @@
 import React from "react";
 import AddTaskForm from "./AddTaskForm";
 import TaskList from "./TaskList";
-import TasksContext from "./TasksContext";
+import TasksContext from "./contexts/TasksContext";
 import TasksLogic from "./TasksLogic";
-import LocalizationContext from "./LocalizationContext";
+import LocalizationContext from "./contexts/LocalizationContext";
 import strings from "./strings";
 
 class TaskListController extends React.Component {

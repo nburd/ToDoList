@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import TaskItem from "./TaskItem";
-import TasksContext from "./TasksContext";
+import TasksContext from "./contexts/TasksContext";
 import TasksLogic from "./TasksLogic";
-import LocalizationContext from "./LocalizationContext";
+import LocalizationContext from "./contexts/LocalizationContext";
 import strings from "./strings";
 
 const TaskList = () => {

@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
-import TasksContext from "./TasksContext";
+import TasksContext from "./contexts/TasksContext";
 import strings from "./strings.js";
-import LocalizationContext from "./LocalizationContext";
+import LocalizationContext from "./contexts/LocalizationContext";
 
 const AddTaskForm = () => {
   const [name, setName] = useState("");
