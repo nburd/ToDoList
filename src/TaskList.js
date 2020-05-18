@@ -7,26 +7,22 @@ import strings from "./strings";
 
 const TaskList = () => {
   const locale = useContext(LocalizationContext);
+  const { tasks } = useContext(TasksContext);
+  
   const localeStings = strings[locale];
-  return (
-    <TasksContext.Consumer>
-      {({ tasks }) => {
-        const listItems = TasksLogic.sort(tasks).map((task) => (
-          <TaskItem key={task.id} task={task} />
-        ));
 
-        return (
-          <div>
-            <div className="container header">
-              <label className="cbx">{localeStings.isDone}</label>
-              <label className="taskName">{localeStings.name}</label>
-              <label className="date">{localeStings.dueDate}</label>
-            </div>
-            {listItems}
-          </div>
-        );
-      }}
-    </TasksContext.Consumer>
+  const listItems = TasksLogic.sort(tasks).map((task) => (
+    <TaskItem key={task.id} task={task} />
+  ));
+  return (
+    <div>
+      <div className="container header">
+        <label className="cbx">{localeStings.isDone}</label>
+        <label className="taskName">{localeStings.name}</label>
+        <label className="date">{localeStings.dueDate}</label>
+      </div>
+      {listItems}
+    </div>
   );
 };
 
