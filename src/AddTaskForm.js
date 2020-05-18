@@ -1,17 +1,14 @@
 import React, { useState, useContext } from "react";
 import TasksContext from "./contexts/TasksContext";
 import strings from "./strings.js";
-import LocalizationContext from "./contexts/LocalizationContext";
+import Localize from "./Localize";
 
 const AddTaskForm = () => {
+  const localeStrings = Localize(strings);
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
 
-  const locale = useContext(LocalizationContext);
   const { handleAdd, validation } = useContext(TasksContext);
-
-  const localeStrings = strings[locale];
-  
   return (
     <div className="form">
       <div>
