@@ -4,7 +4,7 @@ import TasksContext from "./TasksContext";
 const TaskItem = ({ task }) => {
   const today = new Date();
   var containerClass = "";
-  if (task.isDone) {
+  if (task.done) {
     containerClass = "done";
   } else if (new Date(task.date) < today) {
     containerClass = "overdue";

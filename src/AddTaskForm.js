@@ -1,5 +1,7 @@
 import React from "react";
 import TasksContext from "./TasksContext";
+import strings from "./strings.js";
+import LocalizationContext from "./LocalizationContext";
 
 class AddTaskForm extends React.Component {
   constructor(props) {
@@ -20,39 +22,50 @@ class AddTaskForm extends React.Component {
 
   render() {
     return (
-      <TasksContext.Consumer>
-        {({ handleAdd, validation }) => {
+      <LocalizationContext.Consumer>
+        {(value) => {
           return (
-            <div className="form">
-              <div>
-                <label className="formLabel">Task name: </label>
-                <input
-                  type="text"
-                  onChange={this.handleChangeText}
-                  value={this.state.name}
-                />
-              </div>
-              <div>
-                <label className="formLabel">Due date: </label>
-                <input type="date" onChange={this.handleChangeDate} />
-              </div>
-              <div>
-                <button
-                  className="addTaskButton"
-                  onClick={
-                    () => handleAdd({ ...this.state, done: false }) //Придётся немного потерпеть, чтоб сразу всё радикально не менять
-                  }
-                >
-                  Add task
-                </button>
-                {validation && (
-                  <span className="validation-error">{validation}</span>
-                )}
-              </div>
-            </div>
+            <TasksContext.Consumer>
+              {({ handleAdd, validation }) => {
+                const localeStrings = strings[value];
+                return (
+                  <div className="form">
+                    <div>
+                      <label className="formLabel">
+                        {localeStrings.name + ":"}{" "}
+                      </label>
+                      <input
+                        type="text"
+                        onChange={this.handleChangeText}
+                        value={this.state.name}
+                      />
+                    </div>
+                    <div>
+                      <label className="formLabel">
+                        {localeStrings.dueDate + ":"}
+                      </label>
+                      <input type="date" onChange={this.handleChangeDate} />
+                    </div>
+                    <div>
+                      <button
+                        className="addTaskButton"
+                        onClick={
+                          () => handleAdd({ ...this.state, done: false }) //Придётся немного потерпеть, чтоб сразу всё радикально не менять
+                        }
+                      >
+                        {localeStrings.add}
+                      </button>
+                      {validation && (
+                        <span className="validation-error">{validation}</span>
+                      )}
+                    </div>
+                  </div>
+                );
+              }}
+            </TasksContext.Consumer>
           );
         }}
-      </TasksContext.Consumer>
+      </LocalizationContext.Consumer>
     );
   }
 }

@@ -1,27 +1,33 @@
-import React from "react";
+import React, { useContext } from "react";
 import TaskItem from "./TaskItem";
 import TasksContext from "./TasksContext";
 import TasksLogic from "./TasksLogic";
+import LocalizationContext from "./LocalizationContext";
+import strings from "./strings";
 
-const TaskList = () => (
-  <TasksContext.Consumer>
-    {({ tasks }) => {
-      const listItems = TasksLogic.sort(tasks).map((task) => (
-        <TaskItem key={task.id} task={task} />
-      ));
+const TaskList = () => {
+  const locale = useContext(LocalizationContext);
+  const localeStings = strings[locale];
+  return (
+    <TasksContext.Consumer>
+      {({ tasks }) => {
+        const listItems = TasksLogic.sort(tasks).map((task) => (
+          <TaskItem key={task.id} task={task} />
+        ));
 
-      return (
-        <div>
-          <div className="container header">
-            <label className="cbx">IsDone</label>
-            <label className="taskName">Task name</label>
-            <label className="date">Due date</label>
+        return (
+          <div>
+            <div className="container header">
+              <label className="cbx">{localeStings.isDone}</label>
+              <label className="taskName">{localeStings.name}</label>
+              <label className="date">{localeStings.dueDate}</label>
+            </div>
+            {listItems}
           </div>
-          {listItems}
-        </div>
-      );
-    }}
-  </TasksContext.Consumer>
-);
+        );
+      }}
+    </TasksContext.Consumer>
+  );
+};
 
 export default TaskList;

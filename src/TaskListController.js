@@ -3,8 +3,11 @@ import AddTaskForm from "./AddTaskForm";
 import TaskList from "./TaskList";
 import TasksContext from "./TasksContext";
 import TasksLogic from "./TasksLogic";
+import LocalizationContext from "./LocalizationContext";
+import strings from "./strings";
 
 class TaskListController extends React.Component {
+  static contextType = LocalizationContext;
   constructor(props) {
     super(props);
     console.log('AAA!',  )
@@ -21,7 +24,7 @@ class TaskListController extends React.Component {
       });
     } else {
       this.setState({
-        validation: "Task name and due date are required fields",
+        validation: strings[this.context].validationError
       });
     }
   };
