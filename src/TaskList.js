@@ -1,32 +1,27 @@
 import React, { useContext } from "react";
 import TaskItem from "./TaskItem";
-import TasksContext from "./TasksContext";
+import TasksContext from "./contexts/TasksContext";
 import TasksLogic from "./TasksLogic";
-import LocalizationContext from "./LocalizationContext";
 import strings from "./strings";
+import Localize from "./Localize";
 
 const TaskList = () => {
-  const locale = useContext(LocalizationContext);
-  const localeStings = strings[locale];
-  return (
-    <TasksContext.Consumer>
-      {({ tasks }) => {
-        const listItems = TasksLogic.sort(tasks).map((task) => (
-          <TaskItem key={task.id} task={task} />
-        ));
+  const localeStrings = Localize(strings);
+  const { tasks } = useContext(TasksContext);
 
-        return (
-          <div>
-            <div className="container header">
-              <label className="cbx">{localeStings.isDone}</label>
-              <label className="taskName">{localeStings.name}</label>
-              <label className="date">{localeStings.dueDate}</label>
-            </div>
-            {listItems}
-          </div>
-        );
-      }}
-    </TasksContext.Consumer>
+  
+  const listItems = TasksLogic.sort(tasks).map((task) => (
+    <TaskItem key={task.id} task={task} />
+  ));
+  return (
+    <div>
+      <div className="container header">
+        <label className="cbx">{localeStrings.isDone}</label>
+        <label className="taskName">{localeStrings.name}</label>
+        <label className="date">{localeStrings.dueDate}</label>
+      </div>
+      {listItems}
+    </div>
   );
 };
 
