@@ -1,12 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import TaskListController from "./TaskListController";
-import LocalizationContext from "./contexts/LocalizationContext";
+import App from "./App";
 
 ReactDOM.render(
-  <LocalizationContext.Provider value="ru">
-    <TaskListController />
-  </LocalizationContext.Provider>,
+  <App />,
   document.getElementById("root")
 );
