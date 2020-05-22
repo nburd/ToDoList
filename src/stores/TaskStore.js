@@ -1,14 +1,12 @@
-// import { observable, decorate } from "mobx";
-//import { observable } from "mobx-react";
+import { observable, decorate } from "mobx";
 import TasksLogic from "../TasksLogic";
-import { observable } from "mobx-react";
 
 class TaskStore {
   constructor() {
     this.tasks = JSON.parse(window.localStorage.getItem("tasks")) || [];
   }
 
-  @observable tasks = [];
+  tasks = [];
   validationError = null;
 
   addTask(name, date, localeStrings) {
@@ -30,9 +28,9 @@ class TaskStore {
   }
 }
 
-// decorate(TaskStore, {
-//   tasks: observable,
-//   validationError: observable
-// });
+decorate(TaskStore, {
+  tasks: observable,
+  validationError: observable
+});
 const taskStore = new TaskStore();
 export default taskStore;
