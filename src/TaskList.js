@@ -3,15 +3,16 @@ import TaskItem from "./TaskItem";
 import strings from "./strings";
 import Localize from "./Localize";
 import { observer, inject } from "mobx-react";
-
+let c = 0;
 const TaskList = inject("taskStore")(
   observer(({ taskStore }) => {
+    console.log(c++);
     const localeStrings = Localize(strings);
     const listItems = taskStore.getSortTasks().map((task) => (
       <TaskItem
         key={task.id}
         task={task}
-        OnChange={(done) => {
+        onChange={(done) => {
           taskStore.changeTask({ ...task, done: done });
         }}
       />

@@ -3,20 +3,33 @@ import { observable, decorate } from "mobx";
 const validation_name_empty = 'validationError';
 let globalId = 0;
 
-class TasksStore {
+class TaskStore {
   constructor() {
     this.tasks = JSON.parse(window.localStorage.getItem("tasks")) || [];
   }
 
   tasks = [];
   validationError = null;
+  taskValues = {
+    name : "", 
+    date : null
+  };
 
-  addTask(name, date) {
-    if (name && date) {
+  setName(name) {
+    this.taskValues.name = name;
+  }
+
+  setDate(date) {
+    this.taskValues.date = date;
+  }
+
+  addTask() {
+    if (this.taskValues.name && this.taskValues.date) {
       const newTask = {
         id: globalId++,
         done: false,
-        ...{name, date}
+        name: this.taskValues.name,
+        date: this.taskValues.date
       };
       this.tasks = [newTask, ...this.tasks];
       this.validationError = null;
@@ -57,9 +70,9 @@ class TasksStore {
   };
 }
 
-decorate(TasksStore, {
+decorate(TaskStore, {
   tasks: observable,
   validationError: observable
 });
-const taskStore = new TasksStore();
+const taskStore = new TaskStore();
 export default taskStore;
