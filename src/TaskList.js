@@ -8,7 +8,7 @@ const TaskList = inject("taskStore")(
   observer(({ taskStore }) => {
     console.log(c++);
     const localeStrings = Localize(strings);
-    const listItems = taskStore.getSortTasks().map((task) => (
+    const listItems = taskStore.sortTasks.map((task) => (
       <TaskItem
         key={task.id}
         task={task}
@@ -18,7 +18,6 @@ const TaskList = inject("taskStore")(
       />
     ));
 
-    window.localStorage.setItem("tasks", JSON.stringify(taskStore.tasks));
     return (
       <div>
         <div className="container header">

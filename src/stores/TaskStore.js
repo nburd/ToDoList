@@ -1,4 +1,4 @@
-import { observable, decorate } from "mobx";
+import { observable, decorate, autorun, computed } from "mobx";
 
 const validation_name_empty = 'validationError';
 let globalId = 0;
@@ -14,6 +14,8 @@ class TaskStore {
     name : "", 
     date : null
   };
+
+  storeTasks = autorun(() => window.localStorage.setItem("tasks", JSON.stringify(this.tasks)));
 
   setName(name) {
     this.taskValues.name = name;
@@ -45,7 +47,7 @@ class TaskStore {
     this.tasks = [...head, task, ...tail];
   }
 
-  getSortTasks() {
+  get sortTasks() {
     const tasksSorted = [...this.tasks];
     tasksSorted.sort(this.compare);
     return tasksSorted;
@@ -72,7 +74,9 @@ class TaskStore {
 
 decorate(TaskStore, {
   tasks: observable,
-  validationError: observable
+  validationError: observable,
+  sortTasks: computed
+
 });
 const taskStore = new TaskStore();
 export default taskStore;

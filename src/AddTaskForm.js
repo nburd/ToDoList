@@ -7,20 +7,20 @@ const AddTaskForm = inject("taskStore")(
   observer(({ taskStore }) => {
     const localeStrings = Localize(strings);
 
-    const handleClick = useCallback(() => {
-      taskStore.addTask();
-    }, [taskStore]);
+    const handleClick = () => taskStore.addTask();
+    const handleNameChange = useCallback(({target}) => taskStore.setName(target.value), [taskStore]);
+    const handleDateChange = useCallback(({target}) => taskStore.setDate(target.value), [taskStore]);
 
     return (
       <div className="form">
         <div>
           <label className="formLabel">{localeStrings.name + ":"} </label>
-          <input type="text" onChange={({ target }) => taskStore.setName(target.value)}
+          <input type="text" onChange={handleNameChange}
           />
         </div>
         <div>
           <label className="formLabel">{localeStrings.dueDate + ":"}</label>
-          <input type="date" onChange={({ target }) => taskStore.setDate(target.value)}
+          <input type="date" onChange={handleDateChange}
           />
         </div>
         <div>
