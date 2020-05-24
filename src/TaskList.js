@@ -1,28 +1,34 @@
-import React, { useContext } from "react";
+import React from "react";
 import TaskItem from "./TaskItem";
-import TasksContext from "./contexts/TasksContext";
-import TasksLogic from "./TasksLogic";
 import strings from "./strings";
 import Localize from "./Localize";
+import { observer, inject } from "mobx-react";
+let c = 0;
+const TaskList = inject("taskStore")(
+  observer(({ taskStore }) => {
+    console.log(c++);
+    const localeStrings = Localize(strings);
+    const listItems = taskStore.sortTasks.map((task) => (
+      <TaskItem
+        key={task.id}
+        task={task}
+        onChange={(done) => {
+          taskStore.changeTask({ ...task, done: done });
+        }}
+      />
+    ));
 
-const TaskList = () => {
-  const localeStrings = Localize(strings);
-  const { tasks } = useContext(TasksContext);
-
-  
-  const listItems = TasksLogic.sort(tasks).map((task) => (
-    <TaskItem key={task.id} task={task} />
-  ));
-  return (
-    <div>
-      <div className="container header">
-        <label className="cbx">{localeStrings.isDone}</label>
-        <label className="taskName">{localeStrings.name}</label>
-        <label className="date">{localeStrings.dueDate}</label>
+    return (
+      <div>
+        <div className="container header">
+          <label className="cbx">{localeStrings.isDone}</label>
+          <label className="taskName">{localeStrings.name}</label>
+          <label className="date">{localeStrings.dueDate}</label>
+        </div>
+        {listItems}
       </div>
-      {listItems}
-    </div>
-  );
-};
+    );
+  })
+);
 
 export default TaskList;

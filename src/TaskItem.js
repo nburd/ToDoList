@@ -1,7 +1,6 @@
-import React, { useContext } from "react";
-import TasksContext from "./contexts/TasksContext";
+import React, { useCallback } from "react";
 
-const TaskItem = ({ task }) => {
+const TaskItem = ({ task, onChange }) => {
   const today = new Date();
   var containerClass = "";
   if (task.done) {
@@ -9,16 +8,16 @@ const TaskItem = ({ task }) => {
   } else if (new Date(task.date) < today) {
     containerClass = "overdue";
   }
-  const { handleChange } = useContext(TasksContext);
+
+  const handleChange = useCallback(e => onChange(e.target.checked), [onChange]);
+
   return (
     <div className={`container ${containerClass}`}>
       <input
         className="cbx"
         type="checkbox"
         checked={task.done}
-        onChange={({ target }) =>
-          handleChange({ ...task, done: target.checked })
-        }
+        onChange={handleChange}
       />
       <label className="taskName">{task.name}</label>
       <label className="date">{task.date}</label>
