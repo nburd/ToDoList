@@ -1,17 +1,15 @@
-import React, { useContext } from "react";
+import React from "react";
 import TaskItem from "./TaskItem";
-import TasksContext from "./contexts/TasksContext";
 import TasksLogic from "./TasksLogic";
 import strings from "./strings";
 import Localize from "./Localize";
+import { toggleTask } from "./actions/tasksActions";
+import { connect } from "react-redux";
 
-const TaskList = () => {
+const TaskList = ({tasks, toggleTask}) => {
   const localeStrings = Localize(strings);
-  const { tasks } = useContext(TasksContext);
-
-  
   const listItems = TasksLogic.sort(tasks).map((task) => (
-    <TaskItem key={task.id} task={task} />
+    <TaskItem key={task.id} task={task} toggleTask={() => toggleTask(task.id)}/>
   ));
   return (
     <div>
@@ -25,4 +23,13 @@ const TaskList = () => {
   );
 };
 
-export default TaskList;
+
+const mapStateToProps = state => ({
+  tasks: state.tasks.tasks
+});
+
+const mapDispatchToProps = dispatch => ({
+  toggleTask: id => dispatch(toggleTask(id))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(TaskList);

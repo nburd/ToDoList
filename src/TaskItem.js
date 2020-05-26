@@ -1,7 +1,6 @@
-import React, { useContext } from "react";
-import TasksContext from "./contexts/TasksContext";
+import React from "react";
 
-const TaskItem = ({ task }) => {
+const TaskItem = ({ task, toggleTask }) => {
   const today = new Date();
   var containerClass = "";
   if (task.done) {
@@ -9,16 +8,13 @@ const TaskItem = ({ task }) => {
   } else if (new Date(task.date) < today) {
     containerClass = "overdue";
   }
-  const { handleChange } = useContext(TasksContext);
   return (
     <div className={`container ${containerClass}`}>
       <input
         className="cbx"
         type="checkbox"
         checked={task.done}
-        onChange={({ target }) =>
-          handleChange({ ...task, done: target.checked })
-        }
+        onChange={toggleTask}
       />
       <label className="taskName">{task.name}</label>
       <label className="date">{task.date}</label>
