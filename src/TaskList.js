@@ -25,7 +25,7 @@ const TaskList = ({tasks, toggleTask}) => {
 
 
 const mapStateToProps = state => ({
-  tasks: state.tasks.tasks
+  tasks: state.tasks
 });
 
 const mapDispatchToProps = dispatch => ({
