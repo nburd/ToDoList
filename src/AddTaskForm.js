@@ -1,14 +1,20 @@
-import React, { useState, useContext } from "react";
-import TasksContext from "./contexts/TasksContext";
+import React, { useState, useCallback } from "react";
 import strings from "./strings.js";
 import Localize from "./Localize";
+import { addTask } from "./actions/tasksActions";
+import { connect } from "react-redux";
 
-const AddTaskForm = () => {
+const AddTaskForm = ({ dispatch, validationError }) => {
   const localeStrings = Localize(strings);
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
 
-  const { handleAdd, validation } = useContext(TasksContext);
+  const handleAddTask = useCallback(() => dispatch(addTask({ name, date })), [
+    name,
+    date,
+    dispatch,
+  ]);
+
   return (
     <div className="form">
       <div>
@@ -20,18 +26,21 @@ const AddTaskForm = () => {
         <input type="date" onChange={({ target }) => setDate(target.value)} />
       </div>
       <div>
-        <button
-          className="addTaskButton"
-          onClick={
-            () => handleAdd({ ...{ name, date }, done: false }) //Придётся немного потерпеть, чтоб сразу всё радикально не менять
-          }
-        >
+        <button className="addTaskButton" onClick={handleAddTask}>
           {localeStrings.add}
         </button>
-        {validation && <span className="validation-error">{validation}</span>}
+        {validationError && (
+          <span className="validation-error">
+            {localeStrings[validationError]}
+          </span>
+        )}
       </div>
     </div>
   );
 };
 
-export default AddTaskForm;
+const mapStateToProps = (state) => ({
+  validationError: state.validationError,
+});
+
+export default connect(mapStateToProps)(AddTaskForm);
